@@ -1,6 +1,5 @@
-import React from 'react';
+import 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
-
 import Activities from './components/Activities';
 import Leaderboard from './components/Leaderboard';
 import Teams from './components/Teams';
@@ -8,22 +7,15 @@ import Users from './components/Users';
 import Workouts from './components/Workouts';
 
 function NavBar() {
-  const linkClass = ({ isActive }) =>
-    'nav-link' + (isActive ? ' active fw-semibold' : '');
+  const linkClass = ({ isActive }) => 'nav-link' + (isActive ? ' active fw-semibold' : '');
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
         <NavLink className="navbar-brand" to="/">OctoFit Tracker</NavLink>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navMain"
-          aria-controls="navMain"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"
+          aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
 
@@ -45,7 +37,7 @@ export default function App() {
   return (
     <>
       <NavBar />
-      <div className="container py-4">
+      <main className="container py-4">
         <Routes>
           <Route path="/" element={<Activities />} />
           <Route path="/workouts" element={<Workouts />} />
@@ -53,7 +45,7 @@ export default function App() {
           <Route path="/teams" element={<Teams />} />
           <Route path="/users" element={<Users />} />
         </Routes>
-      </div>
+      </main>
     </>
   );
 }
