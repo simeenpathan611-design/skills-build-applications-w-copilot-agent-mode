@@ -1,54 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Users() {
-  const [items, setItems] = useState([]);
+  const API_BASE =
+    (process.env.REACT_APP_API_BASE && process.env.REACT_APP_API_BASE.replace(/\/$/, '')) ||
+    (process.env.REACT_APP_CODESPACE_NAME
+      ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api`
+      : 'http://localhost:8000/api');
 
-  const fetchData = () => {
-    const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/users/`;
-    console.log('Users endpoint:', endpoint);
-    fetch(endpoint)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('Users fetched raw:', data);
-        const list = Array.isArray(data) ? data : data.results || data;
-        console.log('Users list:', list);
-        setItems(list || []);
-      })
-      .catch((err) => console.error('Users fetch error:', err));
-  };
+  const endpoint = `${API_BASE}/users/`;
+
+  const [items, setItems] = useState([]);
+  const [status, setStatus] = useState('loading');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    console.log('[Users] REST API endpoint:', endpoint);
+    (async () => {
+      try {
+        const res = await fetch(endpoint, { credentials: 'include' });
+        const data = await res.json();
+        console.log('[Users] fetched data:', data);
+        const list = Array.isArray(data) ? data : (data && data.results) || [];
+        setItems(list);
+        setStatus('ready');
+      } catch (err) {
+        console.error('[Users] fetch error:', err);
+        setError(err.message || 'Failed to load');
+        setStatus('error');
+      }
+    })();
+  }, [endpoint]);
 
-  const renderTable = () => {
-    if (!items || items.length === 0) return <p>No data available</p>;
-    const keys = Object.keys(items[0]);
-    return (
-      <table className="table table-striped">
-        <thead>
-          <tr>{keys.map((k) => <th key={k}>{k}</th>)}</tr>
-        </thead>
-        <tbody>
-          {items.map((item, idx) => (
-            <tr key={idx}>
-              {keys.map((k) => <td key={k}>{String(item[k])}</td>)}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  };
+  if (status === 'loading') return <p>Loading users…</p>;
+  if (status === 'error') return <p className="text-danger">Error: {error}</p>;
 
   return (
-    <div className="container mt-3">
-      <h2 className="h4 mb-3">Users</h2>
-      <button className="btn btn-sm btn-primary mb-2" onClick={fetchData}>Refresh</button>
-      <div className="card">
-        <div className="card-body">
-          {renderTable()}
-        </div>
-      </div>
+    <div>
+      <h2 className="mb-3">Users</h2>
+      {items.length === 0 ? (
+        <p className="text-muted">No users found.</p>
+      ) : (
+        <ul className="list-group">
+          {items.map((item, idx) => (
+            <li key={item.id ?? idx} className="list-group-item">
+              <pre className="mb-0">{JSON.stringify(item, null, 2)}</pre>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
