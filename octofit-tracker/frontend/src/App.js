@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
+import logo from './logo.svg';
 import Activities from './components/Activities';
 import Leaderboard from './components/Leaderboard';
 import Teams from './components/Teams';
@@ -13,7 +14,10 @@ function App() {
       <div className="container py-3">
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3">
           <div className="container-fluid">
-            <NavLink className="navbar-brand" to="/">OctoFit</NavLink>
+            <NavLink className="navbar-brand" to="/">
+              <img src={logo} alt="OctoFit" className="d-inline-block align-text-top" />
+              OctoFit
+            </NavLink>
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item"><NavLink className="nav-link" to="/activities">Activities</NavLink></li>

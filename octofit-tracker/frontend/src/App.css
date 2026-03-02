@@ -1,7 +1,27 @@
+/** Base page styling **/
+body {
+  background-color: #f0f4f8;
+  color: #343a40;
+}
+
 .App {
   text-align: center;
 }
 
+/* Navbar adjustments */
+.navbar {
+  background-color: #007bff !important;
+}
+.navbar .nav-link,
+.navbar .navbar-brand {
+  color: #fff !important;
+}
+.navbar .navbar-brand img {
+  height: 30px;
+  margin-right: 8px;
+}
+
+/* Logo animation (unused but keep) */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,19 +33,53 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Tables */
+.table {
+  background-color: #ffffff;
+}
+.table th {
+  background-color: #007bff;
+  color: #fff;
+}
+.table td {
+  color: #343a40;
 }
 
-.App-link {
-  color: #61dafb;
+/* Buttons */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Headings and links */
+h1, h2, h3, h4, h5, h6 {
+  color: #007bff;
+}
+a {
+  color: #007bff;
+}
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Card body background */
+.card-body {
+  background-color: #ffffff;
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes App-logo-spin {
