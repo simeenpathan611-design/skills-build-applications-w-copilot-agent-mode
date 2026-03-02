@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 
 export default function Workouts() {
+  // API endpoint: https://<codespace>-8000.app.github.dev/api/workouts/
   const API_BASE =
     (process.env.REACT_APP_API_BASE && process.env.REACT_APP_API_BASE.replace(/\/$/, '')) ||
     (process.env.REACT_APP_CODESPACE_NAME
-      ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api`
-      : 'http://localhost:8000/api');
+      ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/workouts`
+      : 'http://localhost:8000/api/workouts');
 
-  const endpoint = `${API_BASE}/workouts/`;
+  const endpoint = API_BASE;
 
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState('loading');
