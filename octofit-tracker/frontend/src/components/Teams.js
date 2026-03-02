@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 export default function Teams() {
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
+  const fetchData = () => {
     const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/teams/`;
     console.log('Teams endpoint:', endpoint);
     fetch(endpoint)
@@ -15,12 +15,40 @@ export default function Teams() {
         setItems(list || []);
       })
       .catch((err) => console.error('Teams fetch error:', err));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
+  const renderTable = () => {
+    if (!items || items.length === 0) return <p>No data available</p>;
+    const keys = Object.keys(items[0]);
+    return (
+      <table className="table table-striped">
+        <thead>
+          <tr>{keys.map((k) => <th key={k}>{k}</th>)}</tr>
+        </thead>
+        <tbody>
+          {items.map((item, idx) => (
+            <tr key={idx}>
+              {keys.map((k) => <td key={k}>{String(item[k])}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
   return (
-    <div>
-      <h2>Teams</h2>
-      <pre>{JSON.stringify(items, null, 2)}</pre>
+    <div className="container mt-3">
+      <h2 className="h4 mb-3">Teams</h2>
+      <button className="btn btn-sm btn-primary mb-2" onClick={fetchData}>Refresh</button>
+      <div className="card">
+        <div className="card-body">
+          {renderTable()}
+        </div>
+      </div>
     </div>
   );
 }
